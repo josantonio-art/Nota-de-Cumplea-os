@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feliz cumpleaños, Alondra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF3E7;
+    --paper:#FFFDF8;
+    --ink:#3E2E22;
+    --marigold:#E4A73C;
+    --clay:#C1584A;
+    --sage:#6C7A4E;
+    --sage-soft:#DCE3CB;
+    --line: rgba(62,46,34,0.16);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+
+  body{
+    margin:0;
+    min-height:100%;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(228,167,60,0.16), transparent 42%),
+      radial-gradient(circle at 88% 92%, rgba(193,88,74,0.12), transparent 45%),
+      var(--cream);
+    color:var(--ink);
+    font-family:'Cormorant Garamond', Georgia, serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:
+      calc(32px + env(safe-area-inset-top,0px))
+      20px
+      calc(32px + env(safe-area-inset-bottom,0px));
+    overflow-x:hidden;
+  }
+
+  .stage{
+    width:100%;
+    max-width:620px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:70vh;
+  }
+
+  /* ---------- Envelope ---------- */
+  .envelope-wrap{
+    text-align:center;
+  }
+
+  .envelope{
+    position:relative;
+    width:280px;
+    height:190px;
+    margin:0 auto 28px;
+    cursor:pointer;
+    filter:drop-shadow(0 18px 28px rgba(62,46,34,0.18));
+  }
+
+  .envelope svg{ display:block; width:100%; height:100%; }
+
+  .envelope .flap{
+    transform-origin:140px 12px;
+    transition:transform 0.7s cubic-bezier(.6,0,.3,1);
+  }
+
+  .envelope-wrap.open .flap{
+    transform:rotateX(178deg);
+  }
+
+  .seal{
+    position:absolute;
+    top:78px;
+    left:50%;
+    transform:translateX(-50%);
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:var(--clay);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--paper);
+    font-size:22px;
+    box-shadow:0 3px 6px rgba(0,0,0,0.2);
+    transition:opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .envelope-wrap.open .seal{
+    opacity:0;
+    transform:translateX(-50%) scale(0.5);
+  }
+
+  .prompt{
+    font-family:'Caveat', cursive;
+    font-size:1.5rem;
+    color:var(--ink);
+    letter-spacing:0.02em;
+  }
+
+  .envelope-wrap.open .prompt{ opacity:0; }
+
+  /* ---------- Letter ---------- */
+  .letter{
+    width:100%;
+    background:var(--paper);
+    border-radius:6px;
+    padding:52px 44px 46px;
+    box-shadow:0 24px 50px rgba(62,46,34,0.16), 0 2px 0 rgba(62,46,34,0.06);
+    position:relative;
+    opacity:0;
+    transform:translateY(18px) scale(0.98);
+    max-height:0;
+    overflow:hidden;
+    transition:opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s;
+  }
+
+  .envelope-wrap.open ~ .letter,
+  .stage.opened .letter{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    max-height:none;
+    overflow:visible;
+  }
+
+  .stage.opened .envelope-wrap{
+    display:none;
+  }
+
+  .letter::before{
+    content:"";
+    position:absolute;
+    inset:14px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    pointer-events:none;
+  }
+
+  .letter .petal-corner{
+    position:absolute;
+    width:64px;
+    height:64px;
+    opacity:0.85;
+  }
+  .letter .petal-corner.tl{ top:-14px; left:-14px; }
+  .letter .petal-corner.br{ bottom:-14px; right:-14px; transform:rotate(180deg); }
+
+  h1{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:clamp(2.4rem, 8vw, 3.1rem);
+    color:var(--clay);
+    margin:6px 0 26px;
+    line-height:1.1;
+  }
+
+  p{
+    font-size:1.22rem;
+    line-height:1.72;
+    margin:0 0 20px;
+    max-width:66ch;
+  }
+
+  p:last-of-type{ margin-bottom:0; }
+
+  .signoff{
+    margin-top:30px;
+    font-family:'Caveat', cursive;
+    font-size:1.7rem;
+    color:var(--sage);
+  }
+
+  .divider{
+    width:56px;
+    height:2px;
+    background:var(--marigold);
+    border:none;
+    margin:30px 0;
+    border-radius:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .envelope .flap, .letter{ transition:none !important; }
+  }
+
+  @media (max-width:420px){
+    .letter{ padding:40px 24px 34px; }
+    .envelope{ width:240px; height:164px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope" id="envelope">
+      <svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="14" width="272" height="172" rx="6" fill="#FFFDF8" stroke="rgba(62,46,34,0.18)"/>
+        <path d="M4 20 L140 118 L276 20" fill="none" stroke="rgba(62,46,34,0.18)" stroke-width="1.4"/>
+      </svg>
+      <div class="seal">✿</div>
+      <svg class="flap" viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;">
+        <path d="M4 20 C4 16 8 14 12 14 L268 14 C272 14 276 16 276 20 L140 108 Z" fill="#E9C77C" stroke="rgba(62,46,34,0.18)"/>
+      </svg>
+    </div>
+    <div class="prompt">toca el sobre para abrirlo</div>
+  </div>
+
+  <div class="letter">
+    <svg class="petal-corner tl" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="var(--sage)" stroke-width="1.3">
+        <path d="M6 40 C6 20 20 6 40 6"/>
+      </g>
+      <circle cx="14" cy="34" r="5" fill="var(--marigold)"/>
+      <circle cx="24" cy="20" r="4" fill="var(--clay)"/>
+      <circle cx="38" cy="10" r="3.4" fill="var(--sage)"/>
+    </svg>
+    <svg class="petal-corner br" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="var(--sage)" stroke-width="1.3">
+        <path d="M6 40 C6 20 20 6 40 6"/>
+      </g>
+      <circle cx="14" cy="34" r="5" fill="var(--marigold)"/>
+      <circle cx="24" cy="20" r="4" fill="var(--clay)"/>
+      <circle cx="38" cy="10" r="3.4" fill="var(--sage)"/>
+    </svg>
+
+    <h1>Feliz cumpleaños, Alondra ❤️</h1>
+
+    <p>A veces pienso que qué raro es crecer al lado de alguien y, sin darte cuenta, terminar compartiendo tantas partes de tu vida con esa persona. Nosotros prácticamente crecimos juntos, y entre los años se fueron quedando un montón de historias, secretos, chismes, risas y conversaciones que probablemente solo nosotros entendemos.</p>
+
+    <p>Y creo que eso es lo bonito de tenerte como prima, que con el tiempo dejaste de ser solamente familia para convertirte en alguien con quien puedo hablar de cualquier cosa, contarle mis cosas y saber que siempre hay confianza.</p>
+
+    <p>Me gusta pensar que todavía nos quedan muchas historias por contar y muchos momentos que algún día vamos a recordar diciendo "¿te acuerdas de eso?" jajaja.</p>
+
+    <hr class="divider">
+
+    <p>Solo quería que supieras que te quiero muchísimo, que te tengo un cariño enorme y que de verdad me alegra tenerte en mi vida desde prácticamente siempre.</p>
+
+    <p>Espero que este nuevo año te trate bonito y te regale muchas razones para sonreír. Y bueno, que nunca nos falten los chismes tampoco 😂❤️</p>
+
+    <p class="signoff">Feliz cumpleaños, prima. 🫂❤️</p>
+  </div>
+</div>
+
+<script>
+  const wrap = document.getElementById('envelopeWrap');
+  const stage = document.getElementById('stage');
+  function openLetter(){
+    wrap.classList.add('open');
+    stage.classList.add('opened');
+  }
+  wrap.addEventListener('click', openLetter);
+  wrap.addEventListener('keypress', function(e){
+    if(e.key === 'Enter' || e.key === ' ') openLetter();
+  });
+  wrap.setAttribute('tabindex','0');
+  wrap.setAttribute('role','button');
+  wrap.setAttribute('aria-label','Abrir el sobre para leer la carta');
+</script>
+
+</body>
+</html>
